@@ -10,8 +10,8 @@ app.config.from_object(__name__)
 app.config.update(dict(
     DATABASE=os.path.join(app.root_path, 'cards.db'),
     SECRET_KEY='development key',
-    USERNAME='admin',
-    PASSWORD='default'
+    USERNAME='mingyuejishiyou',
+    PASSWORD='jiubugaosuni'
 ))
 app.config.from_envvar('CARDS_SETTINGS', silent=True)
 
