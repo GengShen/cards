@@ -4,5 +4,3 @@ __pycache__/
 config-personal.txt
 *.pyc
 .gitignore~
-#.gitignore#
-convert/tstfile
