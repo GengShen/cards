@@ -2,24 +2,36 @@
 from collections import defaultdict
 import csv
 import sys
+import sqlite3
+#import ast
 
 
 class convert:
 
-    def __init__(self):
+    def __init__(self, file_name, type_data):
         self.contents = []
+        self.file_name = file_name
+        #self.type_dict = ast.literal_eval(open('').read().replace('\n',''))
+        self.type_dict = {
+            'normal': 0,
+            'english': 1,
+            'math': 2,
+            'computer': 3,
+            'other': 4,
+        }
+        self.type_int = self.type_dict[type_data]
 
-    def csv_lst2d(self, file_name):
-        with open(file_name) as csvfile:
+    def csv_lst2d(self):
+        with open(self.file_name) as csvfile:
             middle = csv.reader(csvfile)
             for i in middle:
                 i = [ii for ii in i if ii <> '']
                 self.contents.append(i)
         return 1
 
-    def markdown_lst2d(self, file_name):  # 待测试
+    def markdown_lst2d(self):  # 待测试
         # '---' as start pattern
-        with open(file_name) as file:
+        with open(self.file_name) as file:
             lines = [i.rstrip() for i in file.readlines()]
             lines = [i for i in lines if i <> '']
             if '---' in lines:
@@ -53,10 +65,12 @@ class convert:
                     if '--'.join(self.contents[row-1][:col]) not in cards:
                         cards['--'.join(self.contents[row-1][:col])] = []
                         cards[
-                            '--'.join(self.contents[row-1][:col])] .append(self.contents[row-1][col])
+                            '--'.join(self.contents[row-1][:col])].append(
+                                self.contents[row-1][col])
                     else:
                         cards[
-                            '--'.join(self.contents[row-1][:col])].append(self.contents[row-1][col])
+                            '--'.join(self.contents[row-1][:col])].append(
+                                self.contents[row-1][col])
         for i in cards:
             elem = []
             for ii in cards[i]:
@@ -66,20 +80,20 @@ class convert:
         self.cards = cards
         return 1
 
-    def csv_cards(self, file_name):
-        if self.csv_lst2d(file_name):
+    def csv_cards(self):
+        if self.csv_lst2d():
             self.lst2d_cards()
 
-    def markdown_cards(self, file_name):
-        if self.markdown_lst2d(file_name):
+    def markdown_cards(self):
+        if self.markdown_lst2d():
             self.lst2d_cards()
 
-    def convert_file(self, file_name):
-        file_postfix = file_name.split('.')[1]
+    def convert_file(self):
+        file_postfix = self.file_name.split('.')[1]
         if file_postfix == 'md' or file_postfix == 'txt':
-            self.markdown_cards(file_name)
+            self.markdown_cards()
         elif file_postfix == 'csv':
-            self.csv_cards(file_name)
+            self.csv_cards()
         else:
             print 'not a convertable file type'
 
@@ -92,19 +106,32 @@ class convert:
                 break
         return n
 
-    def test(self):
-        file_name = '/Users/shen/Desktop/cards/convert/tstfile/' + sys.argv[-1]
-        self.convert_file(file_name)
-        print '-'*20
-        print 'cards_report:'
-        for i in sorted(self.cards.keys()):
-            print 'Q:'+i + ' :\n' + self.cards[i]
-        #print self.cards
+    def exp_database(self):
+        conn = sqlite3.connect("../cards.db")  # 注意修改
+        sql_statement_raw = \
+            'insert into cards(type,front,back) values (%i,%s,%s)'
+        n = 0
+        for i in self.cards:
+            sql_statement = sql_statement_raw % (
+                self.type_int, '\''+i.replace('\'', '‘')+'\'', '\'' +
+                self.cards[i].replace('\'', '‘') + '\'')
+            conn.execute(sql_statement)
+            n += 1
+        conn.commit()
+        print str(n)+' Done'
+
+    def convert_to_database(self):
+
+        self.convert_file()
+        self.exp_database()
+
+
+def test():
+    file_name = '/Users/shen/Desktop/cards/convert/tstfile/' + sys.argv[-2]
+    type_d = sys.argv[-1]
+    t = convert(file_name, type_d)
+    t.convert_to_database()
 
 
 if __name__ == '__main__':
-    t = convert()
-    # t.csv_lst2d('/Users/shen/desktop/sqlite.csv')
-    # t.lst2d_cards()
-    # t.markdown_lst2d("/Users/shen/Desktop/g.md")
-    t.test()
+    test()
