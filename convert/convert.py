@@ -8,18 +8,20 @@ import sqlite3
 
 class convert:
 
-    def __init__(self, file_name, type_data):
+    def __init__(self, file_name, type_data = 'general'):
         self.contents = []
         self.file_name = file_name
         #self.type_dict = ast.literal_eval(open('').read().replace('\n',''))
         self.type_dict = {
-            'normal': 0,
+            'general': 0,
             'english': 1,
             'math': 2,
             'computer': 3,
-            'other': 4,
+            'code': 4,
         }
-        self.type_int = self.type_dict[type_data]
+        self.type_int = self.type_dict.get(type_data)
+        if not self.type_int:
+            self.type_int = 0
 
     def csv_lst2d(self):
         with open(self.file_name) as csvfile:

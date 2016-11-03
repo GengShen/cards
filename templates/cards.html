@@ -6,10 +6,19 @@
         <form action="{{ url_for('add_card') }}" method="post" class="cardForm">
             <div class="form-group">
                 <label for="general" class="toggleButton btn btn-default btn-lg">General &nbsp;
-                    <input type="radio" name="type" value="1" id="general"/>
+                    <input type="radio" name="type" value="0" id="general"/>
+                </label>
+                <label for="english" class="toggleButton btn btn-default btn-lg">English &nbsp;
+                    <input type="radio" name="type" value="1" id="english"/>
+                </label>
+                <label for="math" class="toggleButton btn btn-default btn-lg">Math &nbsp;
+                    <input type="radio" name="type" value="2" id="math"/>
+                </label>
+                <label for="computer" class="toggleButton btn btn-default btn-lg">Computer &nbsp;
+                    <input type="radio" name="type" value="3" id="computer"/>
                 </label>
                 <label for="code" class="toggleButton btn btn-default btn-lg">Code &nbsp;
-                    <input type="radio" name="type" value="2" id="code"/>
+                    <input type="radio" name="type" value="4" id="code"/>
                 </label>
             </div>
             <div class="form-group fieldFront">
@@ -36,6 +45,9 @@
     <div class="btn-group btn-group-md" role="group" aria-label="filters">
         <a href="{{ url_for('filter_cards', filter_name="all") }}" class="btn btn-{{ "primary" if filter_name == "all" else "default" }}">All</a>
         <a href="{{ url_for('filter_cards', filter_name="general") }}" class="btn btn-{{ "primary" if filter_name == "general" else "default" }}">General</a>
+        <a href="{{ url_for('filter_cards', filter_name="english") }}" class="btn btn-{{ "primary" if filter_name == "english" else "default" }}">English</a>
+        <a href="{{ url_for('filter_cards', filter_name="math") }}" class="btn btn-{{ "primary" if filter_name == "math" else "default" }}">Math</a>
+        <a href="{{ url_for('filter_cards', filter_name="computer") }}" class="btn btn-{{ "primary" if filter_name == "computer" else "default" }}">Computer</a>
         <a href="{{ url_for('filter_cards', filter_name="code") }}" class="btn btn-{{ "primary" if filter_name == "code" else "default" }}">Code</a>
         <a href="{{ url_for('filter_cards', filter_name="known") }}" class="btn btn-{{ "primary" if filter_name == "known" else "default" }}">Known</a>
         <a href="{{ url_for('filter_cards', filter_name="unknown") }}" class="btn btn-{{ "primary" if filter_name == "unknown" else "default" }}">Unknown</a>
@@ -54,7 +66,7 @@
                     <h4>
                         {{ card.front }}
                     </h4>
-                    {% if card.type == 1 %}
+                    {% if card.type == 0 %}
                         {{ card.back|replace("\n", "<br />")|safe }}
                     {% else %}
                         <pre>{{ card.back|safe }}</pre>

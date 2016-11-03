@@ -5,6 +5,9 @@
         <div class="col-xs-12 text-center">
             <div class="btn-group btn-group-lg" role="group" aria-label="card type">
                 <a href="{{ url_for('general') }}" class="btn btn-{{ "primary" if card_type == "general" else "default" }}">General</a>
+                <a href="{{ url_for('english') }}" class="btn btn-{{ "primary" if card_type == "english" else "default" }}">English</a>
+                <a href="{{ url_for('math') }}" class="btn btn-{{ "primary" if card_type == "math" else "default" }}">Math</a>
+                <a href="{{ url_for('computer') }}" class="btn btn-{{ "primary" if card_type == "computer" else "default" }}">Computer</a>
                 <a href="{{ url_for('code') }}" class="btn btn-{{ "primary" if card_type == "code" else "default" }}">Code</a>
             </div>
         </div>
@@ -38,7 +41,7 @@
                 <div class="panel-body">
                     <div class="alignContainer">
                         <div class="alignMiddle frontText">
-                            {% if card.type == 1 %}
+                            {% if card.type == 0 %}
                                 {% if short_answer %}
                                     <div class="text-center largerText">
                                 {% endif %}

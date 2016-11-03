@@ -85,8 +85,11 @@ def filter_cards(filter_name):
 
     filters = {
         "all":      "where 1 = 1",
-        "general":  "where type = 1",
-        "code":     "where type = 2",
+        "general":  "where type = 0",
+        "english":  "where type = 1",
+        "math":  "where type = 2",
+        "computer":  "where type = 3",
+        "code":     "where type = 4",
         "known":    "where known = 1",
         "unknown":  "where known = 0",
     }
@@ -179,6 +182,26 @@ def general(card_id=None):
         return redirect(url_for('login'))
     return memorize("general", card_id)
 
+@app.route('/english')
+@app.route('/english/<card_id>')
+def english(card_id=None):
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+    return memorize("english", card_id)
+
+@app.route('/math')
+@app.route('/math/<card_id>')
+def math(card_id=None):
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+    return memorize("math", card_id)
+
+@app.route('/computer')
+@app.route('/computer/<card_id>')
+def computer(card_id=None):
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+    return memorize("computer", card_id)
 
 @app.route('/code')
 @app.route('/code/<card_id>')
@@ -190,9 +213,15 @@ def code(card_id=None):
 
 def memorize(card_type, card_id):
     if card_type == "general":
+        type = 0
+    elif card_type == "english":
         type = 1
-    elif card_type == "code":
+    elif card_type == "math":
         type = 2
+    elif card_type == "computer":
+        type = 3
+    elif card_type == "code":
+        type = 4
     else:
         return redirect(url_for('cards'))
 

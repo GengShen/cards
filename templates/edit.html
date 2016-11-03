@@ -6,11 +6,24 @@
 
             <div class="form-group">
                 <label for="general" class="btn btn-default btn-lg">General &nbsp;
+                    <input type="radio" name="type" value="0"
+                           id="general" {{ "checked" if (card.type == 0) else "" }} />
+                </label>
+                <label for="english" class="btn btn-default btn-lg">English &nbsp;
                     <input type="radio" name="type" value="1"
-                           id="general" {{ "checked" if (card.type == 1) else "" }} />
+                           id="english" {{ "checked" if (card.type == 1) else "" }} />
+                </label>
+                <label for="math" class="btn btn-default btn-lg">Math &nbsp;
+                    <input type="radio" name="type" value="2"
+                           id="math" {{ "checked" if (card.type == 2) else "" }} />
+                </label>
+                <label for="computer" class="btn btn-default btn-lg">Computer &nbsp;
+                    <input type="radio" name="type" value="3"
+                           id="computer" {{ "checked" if (card.type == 3) else "" }} />
                 </label>
                 <label for="code" class="btn btn-default btn-lg">Code &nbsp;
-                    <input type="radio" name="type" value="2" id="code" {{ "checked" if (card.type == 2) else "" }} />
+                    <input type="radio" name="type" value="4" 
+                           id="code" {{ "checked" if (card.type == 4) else "" }} />
                 </label>
             </div>
             <div class="form-group">
