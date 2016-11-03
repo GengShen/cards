@@ -231,8 +231,12 @@ def memorize(card_type, card_id):
         card = get_card(type)
     if not card:
         flash("You've learned all the " + card_type + " cards.")
-        return redirect(url_for('cards'))
-    short_answer = (len(card['back']) < 75)
+        #return redirect(url_for('cards'))
+    if card:
+        short_answer = (len(card['back']) < 75)
+    else:
+        short_answer = False
+        print card
     return render_template('memorize.html',
                            card=card,
                            card_type=card_type,
